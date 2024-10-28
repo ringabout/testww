@@ -1,0 +1,21 @@
+on:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - macos-latest
+        nimversion:
+          - devel
+          # - stable
+    name: ${{ matrix.os }} - ${{ matrix.nimversion }}
+    runs-on: ${{ matrix.os }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: choosenim
+        run: |
+          curl https://raw.githubusercontent.com/nim-lang/choosenim/refs/heads/master/scripts/choosenim-unix-init.sh -o init.sh
+          sh init.sh
